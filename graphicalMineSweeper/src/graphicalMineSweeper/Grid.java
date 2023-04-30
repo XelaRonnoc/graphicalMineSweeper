@@ -26,13 +26,7 @@ public class Grid {
 		this.cells = new Cell[this.gridSize][this.gridSize];
 	    for(int i=0; i<cells.length; i++) {
 	        for(int j=0; j<cells[i].length; j++) {
-	        	if(j == cells[i].length-1) {
 	        		cells[i][j] = new Cell(10+Cell.size*j, 10+Cell.size*i, j, i);
-	        	}else {
-	        		cells[i][j] = new Cell(10+Cell.size*j, 10+Cell.size*i, j, i);
-	        	}
-	        	
-	        	
 	        }
 	    }
 	    
@@ -67,12 +61,6 @@ public class Grid {
 	      }
 	}
 	
-//	public Cell getCell(int input) {
-//		int xLoc = (input/10);
-//		int yLoc = (input%10);
-//		Cell selected = cells[yLoc][xLoc];
-//		return selected;
-//	}
 	
 	public static void setCurCell(Cell c) {
 		curCell = c;
