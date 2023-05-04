@@ -21,7 +21,7 @@ public class Cell extends Rectangle {
 	private boolean revealed = false;
 	private int gridX; // where it is stored in grid
 	private int gridY;
-	private int loc;
+	private int gridLoc;
 	private ArrayList<Cell> neighbors = new ArrayList<Cell>();
 	private boolean canCascade = true;
 	private int bombNear = 0;
@@ -30,7 +30,7 @@ public class Cell extends Rectangle {
 	
 	public Cell(int x, int y, int gridX, int gridY) {
 		super(x,y, size, size);
-		this.loc = Integer.parseInt(""+ x + "" + y);
+		this.gridLoc = Integer.parseInt(""+ gridX + "" + gridY);
 		this.xLoc = x;
 		this.yLoc = y;
 		this.label = "";
@@ -38,27 +38,24 @@ public class Cell extends Rectangle {
 		this.gridY = gridY;
 	}
 	
-	public Cell(int x, int y) {
-		super(x,y, size, size);
-		this.loc = Integer.parseInt(""+ x + "" + y);
-		this.xLoc = x;
-		this.yLoc = y;
-		this.label = "";
-	}
 	
-	public void newInitialiseNeighbors() {
-		for(int i = this.yLoc-1; i <= this.yLoc+1; i++) {
-			for(int j = this.xLoc-1; j <= xLoc+1; j++) {
-				if(i != this.yLoc || j != this.xLoc) {
+	public void newInitialiseNeighbors() { // issue is to do with preeceeding 0s being removed because they are ints, this doesn't matter until greater than 1 digit numbers i.e. size > 10
+		for(int i = this.gridY-1; i <= this.gridY+1; i++) {
+			for(int j = this.gridX-1; j <= gridX+1; j++) {
+				if(i != this.gridY || j != this.gridX) {
 					if(i < 0 || j < 0 || i >= this.gridRef.getGridSize() || j >= this.gridRef.getGridSize()) {
 						continue;
 					}
 					int cellLoc =  Integer.parseInt("" + j +"" + i);
+					System.out.println("current cell" + this.toString());
+					System.out.println("neightbor X: " + j + " neighbor Y: " + i);
+					System.out.println("neighborLoc: " + cellLoc);
 					Optional<Cell> neighbor = gridRef.getCell(cellLoc);
 					if(neighbor.isPresent()) {
 						if(neighbor.get().getBomb()) {
 							this.canCascade = false;
 							this.bombNear++;
+//							System.out.println(this.bombNear);
 						}
 						this.neighbors.add(neighbor.get());
 					}
@@ -72,9 +69,8 @@ public class Cell extends Rectangle {
 		return this.label;
 	}
 	
-	public void setLabel(int numBombs) {
-		this.label = "" + numBombs;
-		
+	public void setLabel() {
+		this.label = "" + this.bombNear;
 	}
 	
 	public int getXLoc() {
@@ -98,7 +94,7 @@ public class Cell extends Rectangle {
 			g.setColor(Color.gray);
 		}
 	    if(this.contains(mousePos)) {
-	    	Grid.setCurCell(this);
+	    	gridRef.setCurCell(this);
 	    	g.setColor(Color.green);
 	    }
 	    
@@ -110,7 +106,7 @@ public class Cell extends Rectangle {
 	    	g.fillRect(x, y, size, size);
 	    	g.setColor(Color.black);
 	    	g.setFont(new Font("cellFont", Font.BOLD, 32));
-	    	g.drawString(this.label, x + size/4, y + size - size/5);
+	    	g.drawString(this.label, this.xLoc + size/3 , (this.yLoc -  size/5) + size);
 
 	    }  
 		
@@ -140,8 +136,8 @@ public class Cell extends Rectangle {
 		return this.revealed;
 	}
 
-	public int getLoc() {
-		return this.loc;
+	public int getGridLoc() {
+		return this.gridLoc;
 	}
 	
 	
@@ -161,10 +157,10 @@ public class Cell extends Rectangle {
 	// ONLY USE FOR TESTING
 	public void setNear(int bombs) {
 		this.bombNear = bombs;
+	}	
+	
+	public String toString() {
+		return "gridX: " + this.gridX + " gridY: " + this.gridY;
 	}
-	
-	
-
-	
 
 }

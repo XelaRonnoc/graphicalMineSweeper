@@ -10,17 +10,19 @@ import java.awt.event.MouseListener;
 public class Main extends JFrame {
 	
 	class Canvas extends JPanel implements MouseListener {
-	      Grid grid = new Grid(40, 20);
+//	    Grid grid = new Grid(40, 20);
+		GridSingleton grid = GridSingleton.getGrid();
 
-	      public Canvas() {
-	        setPreferredSize(new Dimension(720, 720));
-	        this.addMouseListener(this);
-	      }
 
-	      @Override
-	      public void paint(Graphics g) { 
-	        grid.paint(g, getMousePosition()); 
-	      }
+	    public Canvas() {
+	    	setPreferredSize(new Dimension(720, 720));
+	      	this.addMouseListener(this);
+	    }
+
+	    @Override
+	    public void paint(Graphics g) { 
+	    	grid.paint(g, getMousePosition()); 
+	    }
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -66,10 +68,12 @@ public class Main extends JFrame {
 	      window.run();
 	    }
 
-	    public void run() { // continous loop while prgram is running
-	      while(true) {
+	    public void run() {
+	    	GridSingleton grid = GridSingleton.getGrid();
+	    	grid.setupGrid(10,12);
+	      while(true) {// Continuous loop while program is running
 	        try{
-	        Thread.sleep(20);
+	        Thread.sleep(30);
 	        }catch (InterruptedException e){
 	        }
 	        repaint();
