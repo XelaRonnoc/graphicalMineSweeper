@@ -7,6 +7,7 @@ public class Grid {
 	
 	public static Cell curCell;
 	
+	// change this to something that can be iterated over in a single loop
 	private Cell[][] cells = new Cell[10][10];
 	private int numberOfBombs;
 	private int unassignedBombs;
@@ -66,6 +67,8 @@ public class Grid {
 		curCell = c;
 	}
 	
+	
+	// maybe make it so cell knows about it's neighbors?
 	public void showBombs(Cell selected) {
 		selected.setRevealed();
 		decrementSafeSpacesLeft();
@@ -109,13 +112,6 @@ public class Grid {
 	public void mouseClicked(int x, int y) {
 		Cell clicked = curCell;
 		
-//		 for(int i=0; i<cells.length; i++) {
-//		    for(int j=0; j<cells[i].length; j++) {
-//		        if(cells[i][j].contains(x,y)) {
-//		        	clicked = cells[i][j];
-//		        }
-//		    }
-//		 }
 		 
 		 if(clicked != null) {
 			boolean bomb = clicked.getBomb();
