@@ -1,5 +1,5 @@
 # graphicalMineSweeper
-  - my take on the classic minesweeper game built in java using jframe and jpanel. Still currently a work in progress however largley functional as a demonstation
+  - my take on the classic minesweeper game built in java using jframe and jpanel. Still currently a work in progress however the core gamplay loop (minus ability to flag potential mines) is complete.
   
   TO DO:
     - Make a start menu and game over menu
