@@ -21,7 +21,7 @@ public class Cell extends Rectangle {
 	private boolean revealed = false;
 	private int gridX; // where it is stored in grid
 	private int gridY;
-	private int gridLoc;
+	private String gridLoc;
 	private ArrayList<Cell> neighbors = new ArrayList<Cell>();
 	private boolean canCascade = true;
 	private int bombNear = 0;
@@ -30,7 +30,7 @@ public class Cell extends Rectangle {
 	
 	public Cell(int x, int y, int gridX, int gridY) {
 		super(x,y, size, size);
-		this.gridLoc = Integer.parseInt(""+ gridX + "" + gridY);
+		this.gridLoc = ""+ gridX + "" + gridY;
 		this.xLoc = x;
 		this.yLoc = y;
 		this.label = "";
@@ -47,10 +47,7 @@ public class Cell extends Rectangle {
 						continue;
 					}
 					int cellLoc =  Integer.parseInt("" + j +"" + i);
-					System.out.println("current cell" + this.toString());
-					System.out.println("neightbor X: " + j + " neighbor Y: " + i);
-					System.out.println("neighborLoc: " + cellLoc);
-					Optional<Cell> neighbor = gridRef.getCell(cellLoc);
+					Optional<Cell> neighbor = gridRef.getCell(j,i);
 					if(neighbor.isPresent()) {
 						if(neighbor.get().getBomb()) {
 							this.canCascade = false;
@@ -136,7 +133,7 @@ public class Cell extends Rectangle {
 		return this.revealed;
 	}
 
-	public int getGridLoc() {
+	public String getGridLoc() {
 		return this.gridLoc;
 	}
 	

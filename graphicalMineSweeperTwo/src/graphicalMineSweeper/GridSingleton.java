@@ -74,34 +74,38 @@ public class GridSingleton {
 		while(xLoc < this.gridSize && yLoc < this.gridSize) {
 			if(xLoc == this.gridSize-1) { // if end of row
 				cells.add(new Cell(10+Cell.size*xLoc,10+Cell.size*yLoc, xLoc, yLoc));
-				System.out.println(new Cell(10+Cell.size*xLoc,10+Cell.size*yLoc, xLoc, yLoc).toString());
 				xLoc = yLoc != this.gridSize-1 ? 0 : xLoc++; // if not end of last row set to 0
 				yLoc++;
 			}else {
 				cells.add(new Cell(10+Cell.size*xLoc,10+Cell.size*yLoc, xLoc, yLoc));
-				System.out.println(new Cell(10+Cell.size*xLoc,10+Cell.size*yLoc, xLoc, yLoc).toString());
 				xLoc++;
 			}
 		}
 
 	}
 	
-	public Optional<Cell> getCell(int input) {
-		Optional<Cell> selected = this.cells.stream().filter(s -> s.getGridLoc() == input).findFirst();
+	public Optional<Cell> getCell(String input) {
+		Optional<Cell> selected = this.cells.stream().filter(s -> s.getGridLoc().equals(input)).findFirst();
 		if(selected.isEmpty()) {
 			System.out.println("no cell found");
 		}
 		return selected;
 	}
 	
+	public Optional<Cell> getCell(int x, int y) {
+		Optional<Cell> selected = this.cells.stream().filter(s -> s.getGridXLoc() == x && s.getGridYLoc() == y).findFirst();
+		if(selected.isEmpty()) {
+			System.out.println("no cell found");
+			return Optional.empty();
+		}
+		return selected;
+	}
 	public void showBombs(Cell selected) {
 		if(selected.getBomb()) {
 			return;
 		}
 		selected.setRevealed();
 		this.decrementSafeSpacesLeft();
-		
-//		System.out.println(selected.getNeighbors().size());
 		for(Cell neighbor : selected.getNeighbors()) {
 			if(!neighbor.getRevealed()) {
 				if(selected.canCascade()) {
@@ -137,11 +141,13 @@ public class GridSingleton {
 		this.curCell = c;
 	}
 	
+	public Cell getCurCell() {
+		return this.curCell;
+	}
+	
 	public void mouseClicked(int x, int y) {
 		Cell clicked = this.curCell;
 		
-		 System.out.println(clicked);
-		 System.out.println(clicked.getNeighbors().toString());
 		 if(clicked != null) {
 			boolean bomb = clicked.getBomb();
 			if(bomb) {

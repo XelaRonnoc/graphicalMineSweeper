@@ -26,14 +26,13 @@ public class Main extends JFrame {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			grid.mouseClicked(e.getX(), e.getY());
+			
 			
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+			grid.mouseClicked(e.getX(), e.getY());
 		}
 
 		@Override
@@ -70,7 +69,7 @@ public class Main extends JFrame {
 
 	    public void run() {
 	    	GridSingleton grid = GridSingleton.getGrid();
-	    	grid.setupGrid(10,12);
+	    	grid.setupGrid(40,20);
 	      while(true) {// Continuous loop while program is running
 	        try{
 	        Thread.sleep(30);
