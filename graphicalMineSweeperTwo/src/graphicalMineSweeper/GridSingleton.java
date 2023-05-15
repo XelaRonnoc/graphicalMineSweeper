@@ -16,6 +16,7 @@ public class GridSingleton {
 	private int gridSize = 2;
 	private int gridArea = 4;
 	private int safeSpacesLeft;
+	private int boarderWidth = 10;
 	
 	private GridSingleton() {
 		
@@ -73,11 +74,11 @@ public class GridSingleton {
 		int xLoc = 0;
 		while(xLoc < this.gridSize && yLoc < this.gridSize) {
 			if(xLoc == this.gridSize-1) { // if end of row
-				cells.add(new Cell(10+Cell.size*xLoc,10+Cell.size*yLoc, xLoc, yLoc));
+				cells.add(new Cell(this.boarderWidth+Cell.size*xLoc,this.boarderWidth+Cell.size*yLoc, xLoc, yLoc));
 				xLoc = yLoc != this.gridSize-1 ? 0 : xLoc++; // if not end of last row set to 0
 				yLoc++;
 			}else {
-				cells.add(new Cell(10+Cell.size*xLoc,10+Cell.size*yLoc, xLoc, yLoc));
+				cells.add(new Cell(this.boarderWidth+Cell.size*xLoc,this.boarderWidth+Cell.size*yLoc, xLoc, yLoc));
 				xLoc++;
 			}
 		}
@@ -100,6 +101,7 @@ public class GridSingleton {
 		}
 		return selected;
 	}
+	
 	public void showBombs(Cell selected) {
 		if(selected.getBomb()) {
 			return;
@@ -137,24 +139,24 @@ public class GridSingleton {
 		return this.gridArea;
 	}
 	
-	public void setCurCell(Cell c) {
-		this.curCell = c;
-	}
-	
 	public Cell getCurCell() {
 		return this.curCell;
 	}
 	
 	public void mouseClicked(int x, int y) {
-		Cell clicked = this.curCell;
-		
-		 if(clicked != null) {
-			boolean bomb = clicked.getBomb();
+		Optional<Cell> clicked = Optional.empty();
+		for(Cell cell: cells) {
+			if(cell.contains(x,y)) {
+				clicked = Optional.ofNullable(cell);
+			}
+		}
+		 if(clicked.isPresent()) {
+			boolean bomb = clicked.get().getBomb();
 			if(bomb) {
 				System.out.println("BOOOM!");
 					
 			}else {
-				this.showBombs(clicked);
+				this.showBombs(clicked.get());
 			}
 				
 			if(this.getSafeSpacesLeft() == 0) {

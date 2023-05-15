@@ -85,13 +85,8 @@ public class Cell extends Rectangle {
 	}
 	
 	public void paint(Graphics g, Point mousePos) {
-		if(hasBomb) {
-	    g.setColor(Color.red);
-		}else {
-			g.setColor(Color.gray);
-		}
+		g.setColor(Color.gray);
 	    if(this.contains(mousePos)) {
-	    	gridRef.setCurCell(this);
 	    	g.setColor(Color.green);
 	    }
 	    
