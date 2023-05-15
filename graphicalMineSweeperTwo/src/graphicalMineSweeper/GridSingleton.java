@@ -39,9 +39,29 @@ public class GridSingleton {
 	
 	private void setUpNeighbors() {
 		for(Cell cell: cells) {
-			cell.newInitialiseNeighbors(); 
+			initCellNeighbors(cell); 
 		}
 		
+	}
+	
+	private void initCellNeighbors(Cell cell) {
+		for(int i = cell.getGridYLoc()-1; i <= cell.getGridYLoc()+1; i++) {
+			for(int j = cell.getGridXLoc()-1; j <= cell.getGridXLoc()+1; j++) {
+				if(i != cell.getGridYLoc() || j != cell.getGridXLoc()) {
+					if(i < 0 || j < 0 || i >= this.getGridSize() || j >= this.getGridSize()) {
+						continue;
+					}
+					Optional<Cell> neighbor = this.getCell(j,i);
+					if(neighbor.isPresent()) {
+						if(neighbor.get().getBomb()) {
+							cell.setCanCascade(false);
+							cell.incrementBombNear();
+						}
+						cell.addNeighbor(neighbor.get());
+					}
+				}
+			}
+		}
 	}
 
 	private void initialliseBombs() {

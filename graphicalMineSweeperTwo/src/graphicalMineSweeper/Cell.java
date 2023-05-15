@@ -10,8 +10,10 @@ import java.util.ArrayList;
 
 
 public class Cell extends Rectangle {
-	private GridSingleton gridRef = GridSingleton.getGrid();
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static int size = 35;
 	
 	private int xLoc;
@@ -27,7 +29,6 @@ public class Cell extends Rectangle {
 	private int bombNear = 0;
 	
 	
-	
 	public Cell(int x, int y, int gridX, int gridY) {
 		super(x,y, size, size);
 		this.gridLoc = ""+ gridX + "" + gridY;
@@ -36,52 +37,6 @@ public class Cell extends Rectangle {
 		this.label = "";
 		this.gridX = gridX;
 		this.gridY = gridY;
-	}
-	
-	
-	public void newInitialiseNeighbors() { // issue is to do with preeceeding 0s being removed because they are ints, this doesn't matter until greater than 1 digit numbers i.e. size > 10
-		for(int i = this.gridY-1; i <= this.gridY+1; i++) {
-			for(int j = this.gridX-1; j <= gridX+1; j++) {
-				if(i != this.gridY || j != this.gridX) {
-					if(i < 0 || j < 0 || i >= this.gridRef.getGridSize() || j >= this.gridRef.getGridSize()) {
-						continue;
-					}
-					int cellLoc =  Integer.parseInt("" + j +"" + i);
-					Optional<Cell> neighbor = gridRef.getCell(j,i);
-					if(neighbor.isPresent()) {
-						if(neighbor.get().getBomb()) {
-							this.canCascade = false;
-							this.bombNear++;
-//							System.out.println(this.bombNear);
-						}
-						this.neighbors.add(neighbor.get());
-					}
-				}
-			}
-		}
-	}
-	
-	
-	public String getLabel() {
-		return this.label;
-	}
-	
-	public void setLabel() {
-		this.label = "" + this.bombNear;
-	}
-	
-	public int getXLoc() {
-		return this.xLoc;
-	}
-	public int getYLoc() {
-		return this.yLoc;
-	}
-	
-	public int getGridXLoc() {
-		return this.gridX;
-	}
-	public int getGridYLoc() {
-		return this.gridY;
 	}
 	
 	public void paint(Graphics g, Point mousePos) {
@@ -112,6 +67,30 @@ public class Cell extends Rectangle {
 		}
 	}
 	
+	public String getLabel() {
+		return this.label;
+	}
+	
+	public void setLabel() {
+		this.label = "" + this.bombNear;
+	}
+	
+	public int getXLoc() {
+		return this.xLoc;
+	}
+	public int getYLoc() {
+		return this.yLoc;
+	}
+	
+	public int getGridXLoc() {
+		return this.gridX;
+	}
+	public int getGridYLoc() {
+		return this.gridY;
+	}
+	
+
+	
 	public void setBomb() {
 		this.hasBomb = true;
 	}
@@ -132,18 +111,28 @@ public class Cell extends Rectangle {
 		return this.gridLoc;
 	}
 	
+	public void addNeighbor(Cell neighbor) {
+		this.neighbors.add(neighbor);
+	}
 	
 	public ArrayList<Cell> getNeighbors(){
 		return this.neighbors;
 	}
+	
+	public void setCanCascade(boolean cascadable) {
+		this.canCascade = cascadable;
+	}
 
 	public boolean canCascade() {
-		
 		return this.canCascade;
 	}
 	
 	public int getNear() {
 		return this.bombNear;
+	}
+	
+	public void incrementBombNear() {
+		this.bombNear++;
 	}
 	
 	// ONLY USE FOR TESTING
