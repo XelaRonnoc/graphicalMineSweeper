@@ -10,8 +10,10 @@ import java.util.ArrayList;
 
 
 public class Cell extends Rectangle {
-//	private GridSingleton gridRef = GridSingleton.getGrid();
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static int size = 35;
 	
 	private int xLoc;
@@ -27,7 +29,6 @@ public class Cell extends Rectangle {
 	private int bombNear = 0;
 	
 	
-	
 	public Cell(int x, int y, int gridX, int gridY) {
 		super(x,y, size, size);
 		this.gridLoc = ""+ gridX + "" + gridY;
@@ -36,28 +37,6 @@ public class Cell extends Rectangle {
 		this.label = "";
 		this.gridX = gridX;
 		this.gridY = gridY;
-	}
-	
-	public String getLabel() {
-		return this.label;
-	}
-	
-	public void setLabel() {
-		this.label = "" + this.bombNear;
-	}
-	
-	public int getXLoc() {
-		return this.xLoc;
-	}
-	public int getYLoc() {
-		return this.yLoc;
-	}
-	
-	public int getGridXLoc() {
-		return this.gridX;
-	}
-	public int getGridYLoc() {
-		return this.gridY;
 	}
 	
 	public void paint(Graphics g, Point mousePos) {
@@ -87,6 +66,30 @@ public class Cell extends Rectangle {
 		  return false;
 		}
 	}
+	
+	public String getLabel() {
+		return this.label;
+	}
+	
+	public void setLabel() {
+		this.label = "" + this.bombNear;
+	}
+	
+	public int getXLoc() {
+		return this.xLoc;
+	}
+	public int getYLoc() {
+		return this.yLoc;
+	}
+	
+	public int getGridXLoc() {
+		return this.gridX;
+	}
+	public int getGridYLoc() {
+		return this.gridY;
+	}
+	
+
 	
 	public void setBomb() {
 		this.hasBomb = true;
