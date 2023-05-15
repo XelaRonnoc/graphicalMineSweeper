@@ -68,6 +68,7 @@ public class Main extends JFrame {
 	    }
 
 	    public void run() {
+	    	
 	    	GridSingleton grid = GridSingleton.getGrid();
 	    	grid.setupGrid(40,20);
 	      while(true) {// Continuous loop while program is running
