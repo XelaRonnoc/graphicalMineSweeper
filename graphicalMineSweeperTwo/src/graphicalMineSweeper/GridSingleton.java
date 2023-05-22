@@ -17,6 +17,7 @@ public class GridSingleton {
 	private int gridArea = 4;
 	private int safeSpacesLeft;
 	private int boarderWidth = 10;
+	private boolean gameRunning = false;
 	
 	private GridSingleton() {
 		
@@ -34,6 +35,7 @@ public class GridSingleton {
 		this.initialliseBombs();
 		this.setUpNeighbors();
 		this.safeSpacesLeft = this.gridArea-this.numberOfBombs;
+		this.setGameRunning(true);
 
 	}
 	
@@ -163,6 +165,14 @@ public class GridSingleton {
 		return this.curCell;
 	}
 	
+	public boolean getGameRunning() {
+		return this.gameRunning;
+	}
+	
+	public void setGameRunning(boolean running) {
+		this.gameRunning = running;
+	}
+	
 	public void mouseClicked(int x, int y) {
 		Optional<Cell> clicked = Optional.empty();
 		for(Cell cell: cells) {
@@ -174,6 +184,7 @@ public class GridSingleton {
 			boolean bomb = clicked.get().getBomb();
 			if(bomb) {
 				System.out.println("BOOOM!");
+				this.setGameRunning(false);
 					
 			}else {
 				this.showBombs(clicked.get());
@@ -181,6 +192,7 @@ public class GridSingleton {
 				
 			if(this.getSafeSpacesLeft() == 0) {
 				System.out.println("You Won!!!");
+				this.setGameRunning(false);
 			}
 		}
 	}

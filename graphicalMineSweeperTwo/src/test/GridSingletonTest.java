@@ -83,5 +83,31 @@ public class GridSingletonTest {
 		void getGridSize_ReturnsGridDimension(){
 			assertEquals(10, grid.getGridSize());
 		}
+		
+		@Test 
+		void getGridArea_ReturnsGridArea(){
+			assertEquals(100, grid.getGridArea());
+		}
+		
+		@Test 
+		void getIsRunning_ReturnsGameStateRunning_ReturnTrue(){
+			assertTrue(grid.getGameRunning());
+		}
+		
+		@Test 
+		void getIsRunning_ReturnsGameStateNotRunningAfterHittingBomb_ReturnsFalse(){
+			grid.setupGrid(2, 4); // full field of bombs
+			grid.mouseClicked(20,20);
+
+			assertFalse(grid.getGameRunning());
+		}
+		
+		@Test 
+		void getIsRunning_ReturnsGameStateNotRunningNoBombsInstaWin_ReturnsFalse(){
+			grid.setupGrid(2, 0); // full field of bombs
+				grid.mouseClicked(20,20);
+
+			assertFalse(grid.getGameRunning());
+		}
 
 }
