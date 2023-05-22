@@ -12,6 +12,7 @@ public class Main extends JFrame {
 	class Canvas extends JPanel implements MouseListener {
 //	    Grid grid = new Grid(40, 20);
 		GridSingleton grid = GridSingleton.getGrid();
+		Menu menu = Menu.getMenu();
 
 
 	    public Canvas() {
@@ -21,6 +22,9 @@ public class Main extends JFrame {
 
 	    @Override
 	    public void paint(Graphics g) { 
+	    	  if(!grid.getGameRunning()) {
+	    		  menu.paint(g, getMousePosition());
+	    	  }
 	    	grid.paint(g, getMousePosition()); 
 	    }
 
@@ -71,7 +75,10 @@ public class Main extends JFrame {
 	    	
 	    	GridSingleton grid = GridSingleton.getGrid();
 	    	grid.setupGrid(40,20);
+	    	Menu menu = Menu.getMenu();
+	    	menu.startMenu(200, 200, 200, 100, 100, 50);
 	      while(true) {// Continuous loop while program is running
+
 	        try{
 	        Thread.sleep(30);
 	        }catch (InterruptedException e){
@@ -79,6 +86,5 @@ public class Main extends JFrame {
 	        repaint();
 	      }
 	    }
-
 
 }

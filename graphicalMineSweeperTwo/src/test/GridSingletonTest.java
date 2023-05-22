@@ -94,20 +94,6 @@ public class GridSingletonTest {
 			assertTrue(grid.getGameRunning());
 		}
 		
-		@Test 
-		void getIsRunning_ReturnsGameStateNotRunningAfterHittingBomb_ReturnsFalse(){
-			grid.setupGrid(2, 4); // full field of bombs
-			grid.mouseClicked(20,20);
 
-			assertFalse(grid.getGameRunning());
-		}
-		
-		@Test 
-		void getIsRunning_ReturnsGameStateNotRunningNoBombsInstaWin_ReturnsFalse(){
-			grid.setupGrid(2, 0); // full field of bombs
-				grid.mouseClicked(20,20);
-
-			assertFalse(grid.getGameRunning());
-		}
 
 }

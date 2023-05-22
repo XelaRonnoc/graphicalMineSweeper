@@ -45,12 +45,12 @@ public class Cell extends Rectangle {
 	    	g.setColor(Color.green);
 	    }
 	    
-	    g.fillRect(x, y, size, size);
+	    g.fillRect(xLoc, yLoc, size, size);
 	    g.setColor(Color.BLACK);
-	    g.drawRect(x, y, size, size);
+	    g.drawRect(xLoc, yLoc, size, size);
 	    if(this.revealed) {
 	    	g.setColor(Color.blue);
-	    	g.fillRect(x, y, size, size);
+	    	g.fillRect(xLoc, yLoc, size, size);
 	    	g.setColor(Color.black);
 	    	g.setFont(new Font("cellFont", Font.BOLD, 32));
 	    	g.drawString(this.label, this.xLoc + size/3 , (this.yLoc -  size/5) + size);
