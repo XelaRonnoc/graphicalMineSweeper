@@ -78,7 +78,6 @@ public class Main extends JFrame {
 	    	Menu menu = Menu.getMenu();
 	    	menu.startMenu(200, 200, 200, 100, 100, 50);
 	      while(true) {// Continuous loop while program is running
-
 	        try{
 	        Thread.sleep(30);
 	        }catch (InterruptedException e){
