@@ -14,7 +14,7 @@ public class Cell extends Rectangle {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static int size = 35;
+	public static int size = 30;
 	
 	private int xLoc;
 	private int yLoc;
