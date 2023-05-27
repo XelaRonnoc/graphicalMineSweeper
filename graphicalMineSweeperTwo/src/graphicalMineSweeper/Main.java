@@ -18,19 +18,20 @@ public class Main extends JFrame {
 	    public Canvas() {
 	    	setPreferredSize(new Dimension(720, 720));
 	      	this.addMouseListener(this);
+	      	grid.setScreenWidth(720);
 	    }
 
 		    @Override
 		    public void paint(Graphics g) { 
 		    	grid.paint(g, getMousePosition()); 
-		    	if(!grid.getGameRunning())
+		    	if(!grid.getGameRunning()) {
 		    		menu.paint(g, getMousePosition());
+		    	}
 		    }
 	
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				
+
 			}
 	
 			@Override
@@ -79,7 +80,7 @@ public class Main extends JFrame {
 	    	Menu menu = Menu.setMenu(true);
 	    	GridSingleton grid = GridSingleton.getGrid();
 	    	
-	    	while(menu.getStart()) {
+	    	while(true) {
 	    		if(!menu.hasBegun()) {
 		        try{
 			        Thread.sleep(30);
@@ -111,8 +112,11 @@ public class Main extends JFrame {
 	    			}
 	    			repaint();
 	    		}
+	    		if(!grid.getGameRunning()) {
+	    			menu = Menu.setMenu(false);
+	    		}
+
 	    	}
-	    	System.out.println("game ended");
 	    }
 
 }

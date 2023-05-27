@@ -27,6 +27,7 @@ public class Cell extends Rectangle {
 	private ArrayList<Cell> neighbors = new ArrayList<Cell>();
 	private boolean canCascade = true;
 	private int bombNear = 0;
+	private boolean highlight = false;
 	
 	
 	public Cell(int x, int y, int gridX, int gridY) {
@@ -39,9 +40,9 @@ public class Cell extends Rectangle {
 		this.gridY = gridY;
 	}
 	
-	public void paint(Graphics g, Point mousePos) {
+	public void paint(Graphics g, Point mousePos, boolean gameRunning) {
 		g.setColor(Color.gray);
-	    if(this.contains(mousePos)) {
+	    if(this.contains(mousePos) && gameRunning) {
 	    	g.setColor(Color.green);
 	    }
 	    
@@ -55,7 +56,12 @@ public class Cell extends Rectangle {
 	    	g.setFont(new Font("cellFont", Font.BOLD, 32));
 	    	g.drawString(this.label, this.xLoc + size/3 , (this.yLoc -  size/5) + size);
 
-	    }  
+	    } 
+	    
+	    if(this.highlight && this.hasBomb) {
+	    	g.setColor(Color.RED);
+	    	g.fillRect(xLoc, yLoc, size, size);
+	    }
 		
 	}
 	
@@ -142,6 +148,10 @@ public class Cell extends Rectangle {
 	
 	public String toString() {
 		return "gridX: " + this.gridX + " gridY: " + this.gridY;
+	}
+	
+	public void setHighlight(boolean highlight){
+		this.highlight = true;
 	}
 
 }

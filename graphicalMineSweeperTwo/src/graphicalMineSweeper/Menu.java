@@ -18,6 +18,7 @@ public class Menu {
 	boolean begin = false;
 	
 	String[] difficulties = {"Easy", "Medium", "Hard"};
+	String[] options = {"Re-try", "New Game", "Exit"};
 	public enum Level {
 		EASY,
 		MEDIUM,
@@ -26,21 +27,19 @@ public class Menu {
 	Level selected = Level.EASY;
 	private Level[] levelsList = Level.values();
 	
+	
 	int backgroundHeight = 520;
 	int backgroundWidth = 520;
 	int backgroundX = 100;
-	int backgroundY = 100;
-	
-	int mainBtnWidth = 200;
-	int mainBtnHeight = 50;
-	int mainXOffset = 160;
-	int mainYOffset = 200;
-	
+	int backgroundY = 100;	
 
-	int diffBtnWidth = 100;
-	int diffBtnHeight = 20;
-	int diffXOffset = 210;
-	int diffYOffset = 270;
+	int diffBtnWidth = 200;
+	int diffBtnHeight = 40;
+	int diffXOffset = 160;
+	int diffYOffset = 170;
+	int xTextOffset = 5;
+	int yTextOffset = 25;
+	int yButtonSpacing = 60;
 	
 	
 	
@@ -56,7 +55,7 @@ public class Menu {
 		if(start) {
 			instance.startMenu();
 		}else {
-//			instance.endMenu(xPos, yPos, width, height, buttonWidth, buttonHeight);
+			instance.endMenu();
 		}
 		return instance;
 	}
@@ -64,19 +63,16 @@ public class Menu {
 	private void startMenu() {
 		this.start = true;
 		this.background = new Rectangle(backgroundX, backgroundY, backgroundWidth, backgroundHeight);
-		this.mainButton = new Rectangle(backgroundX + mainXOffset, backgroundY + mainYOffset, mainBtnWidth, mainBtnHeight);
 		this.difficultyButtons = new Rectangle[3];
 		for(int i = 0; i < difficultyButtons.length; i ++) {
-			difficultyButtons[i] = new Rectangle(backgroundX + diffXOffset, backgroundY + i*30 + diffYOffset, diffBtnWidth, diffBtnHeight);
+			difficultyButtons[i] = new Rectangle(backgroundX + diffXOffset, backgroundY + i*yButtonSpacing + diffYOffset, diffBtnWidth, diffBtnHeight);
 		}
 	}
 	
-//	private void endMenu(int xPos, int yPos, int width, int height, int buttonWidth, int buttonHeight) {
-//		this.start = false;
-//		this.background = new Rectangle(xPos, yPos, width, height);
-//		this.mainButton = new Rectangle(xPos, yPos, buttonWidth, buttonHeight);
-//		this.difficultyButtons = null;
-//	}
+	private void endMenu() {
+		this.start = false;
+		this.begin = false;
+	}
 	
 	
 	public void paint(Graphics g, Point mousePos) {
@@ -84,22 +80,13 @@ public class Menu {
 			mousePos = new Point(-1,-1);
 		}
 		// Background box
-		g.setColor(Color.BLACK);
-	    g.fillRect(this.background.x, this.background.y, this.background.width, this.background.height);
-	    g.setColor(Color.WHITE);
-	    g.drawRect(this.background.x, this.background.y, this.background.width, this.background.height);
+		if(start) {
+			g.setColor(Color.BLACK);
+		    g.fillRect(this.background.x, this.background.y, this.background.width, this.background.height);
+		    g.setColor(Color.WHITE);
+		    g.drawRect(this.background.x, this.background.y, this.background.width, this.background.height);
+		}
 
-	    // Main Button Box
-	    if(this.mainButton.contains(mousePos)) {
-	    	g.setColor(Color.GRAY);
-	    }else {
-	    	g.setColor(Color.BLACK);
-	    }
-	    g.fillRect(this.mainButton.x, this.mainButton.y, this.mainButton.width, this.mainButton.height);
-	    g.setColor(Color.WHITE);
-	    g.drawRect(this.mainButton.x, this.mainButton.y, this.mainButton.width, this.mainButton.height);
-    	g.setFont(new Font("menuFont", Font.BOLD, 32));
-    	g.drawString("Start!", mainButton.x + 60, mainButton.y + 35);
 	    
 	    // difficulty buttons
     	g.setFont(new Font("menuFont", Font.BOLD, 15));
@@ -113,19 +100,44 @@ public class Menu {
 			    g.fillRect(this.difficultyButtons[i].x, this.difficultyButtons[i].y, this.difficultyButtons[i].width, this.difficultyButtons[i].height);
 			    g.setColor(Color.WHITE);
 			    g.drawRect(this.difficultyButtons[i].x, this.difficultyButtons[i].y, this.difficultyButtons[i].width, this.difficultyButtons[i].height);
-			    g.drawString(this.difficulties[i], this.difficultyButtons[i].x + 5, this.difficultyButtons[i].y + 15);
+			    if(start) {
+			    g.drawString(this.difficulties[i], this.difficultyButtons[i].x + xTextOffset, this.difficultyButtons[i].y + yTextOffset);
+			    }else {
+			    	g.drawString(this.options[i], this.difficultyButtons[i].x + xTextOffset, this.difficultyButtons[i].y + yTextOffset);
+			    }
+	    
 		    }
 	    }
 	}
 	
 	public void mouseClicked(int x, int y) {
-		if(mainButton.contains(x,y)) {
-			begin = true;
-		}
-		
-		for(int i = 0; i < this.difficultyButtons.length; i++) {
-			if(this.difficultyButtons[i].contains(x,y)) {
-				this.selected = levelsList[i];
+//		if(mainButton.contains(x,y)) {
+//			begin = true;
+//		}
+		if(this.start) {
+			for(int i = 0; i < this.difficultyButtons.length; i++) {
+				if(this.difficultyButtons[i].contains(x,y)) {
+					this.selected = levelsList[i];
+					this.begin = true;
+				}
+			}
+		}else if(!this.start){
+			for(int i = 0; i < this.difficultyButtons.length; i++) {
+				if(this.difficultyButtons[i].contains(x,y)) {
+					switch(i) {
+						case 0:
+							this.start = true;
+							this.begin = true;
+							break;
+						case 1:
+							Menu.setMenu(true);
+							break;
+						case 2:
+							System.out.println("closing program");
+							System.exit(0);
+							break;
+					}
+				}	
 			}
 		}
 		
