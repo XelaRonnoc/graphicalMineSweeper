@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+
 public class Main extends JFrame {
 	
 	class Canvas extends JPanel implements MouseListener {
@@ -36,9 +37,15 @@ public class Main extends JFrame {
 	
 			@Override
 			public void mousePressed(MouseEvent e) {
-				grid.mouseClicked(e.getX(), e.getY());
-				if(!menu.hasBegun() || !menu.getStart()) {
-					menu.mouseClicked(e.getX(), e.getY());
+				if(e.getButton() == MouseEvent.BUTTON1) {
+					grid.mouseClicked(e.getX(), e.getY());
+					if(!menu.hasBegun() || !menu.getStart()) {
+						menu.mouseClicked(e.getX(), e.getY());
+					}
+				}
+				if(e.getButton() == MouseEvent.BUTTON3) {
+					grid.mouseRightClicked(e.getX(), e.getY());
+					System.out.println("right click");
 				}
 			}
 	

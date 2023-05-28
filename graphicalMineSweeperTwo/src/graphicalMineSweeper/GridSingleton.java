@@ -204,6 +204,23 @@ public class GridSingleton {
 		}
 	}
 	
+	public void mouseRightClicked(int x, int y) {
+		if(!this.gameRunning) {
+			return;
+		}
+		Optional<Cell> clicked = Optional.empty();
+		for(Cell cell: cells) {
+			if(cell.contains(x,y)) {
+				clicked = Optional.ofNullable(cell);
+			}
+		}
+		if (clicked.isPresent()) {
+			clicked.get().setFlagged(true);
+		}
+		
+		
+	}
+	
 	
 	public void paint(Graphics g, Point mousePos) {
 		for(Cell cur: this.cells) {
