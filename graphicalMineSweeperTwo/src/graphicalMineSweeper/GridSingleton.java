@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Optional;
 
+
 public class GridSingleton {
 	
 	private static GridSingleton instance = new GridSingleton();
@@ -16,7 +17,9 @@ public class GridSingleton {
 	private int gridSize = 2;
 	private int gridArea = 4;
 	private int safeSpacesLeft;
-	private int boarderWidth = 10;
+	private int screenWidth = 720;
+	private int borderWidth = 10;
+	private boolean gameRunning = false;
 	
 	private GridSingleton() {
 		
@@ -29,11 +32,13 @@ public class GridSingleton {
 	public void setupGrid(int bombs, int size) {
 		this.gridSize = size >= 2 ? size : 2; 
 		this.gridArea = (int) Math.pow(this.gridSize, 2);
+		this.setBorderWidth();
 		this.setUpCells();
 		this.setupBombs(bombs);
 		this.initialliseBombs();
 		this.setUpNeighbors();
 		this.safeSpacesLeft = this.gridArea-this.numberOfBombs;
+		this.setGameRunning(true);
 
 	}
 	
@@ -94,11 +99,11 @@ public class GridSingleton {
 		int xLoc = 0;
 		while(xLoc < this.gridSize && yLoc < this.gridSize) {
 			if(xLoc == this.gridSize-1) { // if end of row
-				cells.add(new Cell(this.boarderWidth+Cell.size*xLoc,this.boarderWidth+Cell.size*yLoc, xLoc, yLoc));
+				cells.add(new Cell(this.borderWidth+Cell.size*xLoc,this.borderWidth+Cell.size*yLoc, xLoc, yLoc));
 				xLoc = yLoc != this.gridSize-1 ? 0 : xLoc++; // if not end of last row set to 0
 				yLoc++;
 			}else {
-				cells.add(new Cell(this.boarderWidth+Cell.size*xLoc,this.boarderWidth+Cell.size*yLoc, xLoc, yLoc));
+				cells.add(new Cell(this.borderWidth+Cell.size*xLoc,this.borderWidth+Cell.size*yLoc, xLoc, yLoc));
 				xLoc++;
 			}
 		}
@@ -163,7 +168,18 @@ public class GridSingleton {
 		return this.curCell;
 	}
 	
+	public boolean getGameRunning() {
+		return this.gameRunning;
+	}
+	
+	public void setGameRunning(boolean running) {
+		this.gameRunning = running;
+	}
+	
 	public void mouseClicked(int x, int y) {
+		if(!this.gameRunning) {
+			return;
+		}
 		Optional<Cell> clicked = Optional.empty();
 		for(Cell cell: cells) {
 			if(cell.contains(x,y)) {
@@ -174,6 +190,8 @@ public class GridSingleton {
 			boolean bomb = clicked.get().getBomb();
 			if(bomb) {
 				System.out.println("BOOOM!");
+				this.highlightBombs();
+				this.setGameRunning(false);
 					
 			}else {
 				this.showBombs(clicked.get());
@@ -181,14 +199,50 @@ public class GridSingleton {
 				
 			if(this.getSafeSpacesLeft() == 0) {
 				System.out.println("You Won!!!");
+				this.setGameRunning(false);
 			}
 		}
+	}
+	
+	public void mouseRightClicked(int x, int y) {
+		if(!this.gameRunning) {
+			return;
+		}
+		Optional<Cell> clicked = Optional.empty();
+		for(Cell cell: cells) {
+			if(cell.contains(x,y)) {
+				clicked = Optional.ofNullable(cell);
+			}
+		}
+		if (clicked.isPresent()) {
+			clicked.get().setFlagged(true);
+		}
+		
+		
 	}
 	
 	
 	public void paint(Graphics g, Point mousePos) {
 		for(Cell cur: this.cells) {
-			cur.paint(g, mousePos);
+			cur.paint(g, mousePos, this.gameRunning);
+		}
+	}
+	
+	public void setBorderWidth() {
+		int boardSize = gridSize * Cell.size;
+		this.borderWidth = (this.screenWidth - boardSize)/2;
+	}
+	
+	public void setScreenWidth(int screenWidth) {
+		
+		this.screenWidth = screenWidth;
+	}
+	
+	public void highlightBombs() {
+		for(Cell c : this.cells) {
+			if(c.getBomb()) {
+				c.setHighlight(true);
+			}
 		}
 	}
 

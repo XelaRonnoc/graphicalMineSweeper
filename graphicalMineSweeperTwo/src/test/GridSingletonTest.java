@@ -83,5 +83,17 @@ public class GridSingletonTest {
 		void getGridSize_ReturnsGridDimension(){
 			assertEquals(10, grid.getGridSize());
 		}
+		
+		@Test 
+		void getGridArea_ReturnsGridArea(){
+			assertEquals(100, grid.getGridArea());
+		}
+		
+		@Test 
+		void getIsRunning_ReturnsGameStateRunning_ReturnTrue(){
+			assertTrue(grid.getGameRunning());
+		}
+		
+
 
 }

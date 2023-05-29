@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.util.Optional;
 import java.util.ArrayList;
+import java.awt.Polygon;
 
 
 public class Cell extends Rectangle {
@@ -14,7 +15,7 @@ public class Cell extends Rectangle {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static int size = 35;
+	public static int size = 30;
 	
 	private int xLoc;
 	private int yLoc;
@@ -27,6 +28,8 @@ public class Cell extends Rectangle {
 	private ArrayList<Cell> neighbors = new ArrayList<Cell>();
 	private boolean canCascade = true;
 	private int bombNear = 0;
+	private boolean highlight = false;
+	private boolean flagged = false;
 	
 	
 	public Cell(int x, int y, int gridX, int gridY) {
@@ -39,23 +42,42 @@ public class Cell extends Rectangle {
 		this.gridY = gridY;
 	}
 	
-	public void paint(Graphics g, Point mousePos) {
+	public void paint(Graphics g, Point mousePos, boolean gameRunning) {
+
 		g.setColor(Color.gray);
-	    if(this.contains(mousePos)) {
+	    if(this.contains(mousePos) && gameRunning) {
 	    	g.setColor(Color.green);
 	    }
 	    
-	    g.fillRect(x, y, size, size);
+	    g.fillRect(xLoc, yLoc, size, size);
 	    g.setColor(Color.BLACK);
-	    g.drawRect(x, y, size, size);
+	    g.drawRect(xLoc, yLoc, size, size);
+	    
+	    
 	    if(this.revealed) {
 	    	g.setColor(Color.blue);
-	    	g.fillRect(x, y, size, size);
+	    	g.fillRect(xLoc, yLoc, size, size);
 	    	g.setColor(Color.black);
 	    	g.setFont(new Font("cellFont", Font.BOLD, 32));
 	    	g.drawString(this.label, this.xLoc + size/3 , (this.yLoc -  size/5) + size);
-
-	    }  
+	    } 
+	    
+	    if(this.highlight && this.hasBomb) {
+	    	g.setColor(Color.RED);
+	    	g.fillRect(xLoc, yLoc, size, size);
+	    }
+	    
+	    if(flagged) {   	
+	        Polygon flag = new Polygon();
+	        Point center = new Point(this.xLoc+ size/2, this.yLoc+ size/2);
+	        flag.addPoint(center.x + 8, center.y);
+	        flag.addPoint(center.x - 8, center.y + 8);
+	        flag.addPoint(center.x - 8, center.y - 8);
+	        g.setColor(Color.ORANGE);
+	        g.fillPolygon(flag);
+	        g.setColor(Color.BLACK);
+	        g.drawPolygon(flag);
+	    }
 		
 	}
 	
@@ -142,6 +164,14 @@ public class Cell extends Rectangle {
 	
 	public String toString() {
 		return "gridX: " + this.gridX + " gridY: " + this.gridY;
+	}
+	
+	public void setHighlight(boolean highlight){
+		this.highlight = true;
+	}
+	
+	public void setFlagged(boolean flagged) {
+		this.flagged = flagged;
 	}
 
 }
