@@ -1,10 +1,7 @@
 # graphicalMineSweeper
-my take on the classic minesweeper game built in java using jframe and jpanel. Still currently a work in progress however the core gamplay loop (minus ability to flag potential mines) is complete.
+A fully GUI minesweeper game built in java using jframe and jpanel. Implementing menus allowing players to select their difficulty (Easy, medium, or Hard) each progressively increasing the map size and bomb count. The end menu allows players to re-try a new game at the same difficulty, select a new difficulty or exit the application. The gameplay loop is that of the classic minesweeper game with players clearing cells by left clicking them. These cells cascade if no bombs are nearby. Once a cell is revealed it will display how many mines exist adjacent to the cell. Players can right click to flag a square to mark it as containing a mine. if a player left clicks on a mined cell the game is over and all mine locations are revealed. If a player successfully clears all cells then they win the game. Upon game over win or loss the game's result (win or loss, the games difficulty and the remaining unrevealed safe cells are saved into a saveFile.
   
   TO DO:
-  - Add tests for logic imporvements pulled from consoleMineSweeper
-  - Improve graphics (do early so that can be displayed on Portfolio)
-  - Make a start menu and game over menu
-  - In menu allow for player to select difficulty affecting map size and number of mines
-  - Add the ability to flag suspected mines
-  - Add save functionality for high scores
+  - Improve graphics
+  - Add save functionality for high scores 
+  - add limited flag count and display for this
