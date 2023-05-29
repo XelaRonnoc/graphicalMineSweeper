@@ -16,6 +16,7 @@ public class Menu {
 	Rectangle[] difficultyButtons;
 	boolean start = true;
 	boolean begin = false;
+	boolean hasWon = false;
 	
 	String[] difficulties = {"Easy", "Medium", "Hard"};
 	String[] options = {"Re-try", "New Game", "Exit"};
@@ -40,6 +41,17 @@ public class Menu {
 	int xTextOffset = 5;
 	int yTextOffset = 25;
 	int yButtonSpacing = 60;
+	
+	int xHintOffset = 60;
+	int yHintOffset = 420;
+	
+	
+	int GameOverWidth = 160;
+	int GameOverHeight = 40;
+	int xGameOverOffset = 185;
+	int yGameOverOffset = 400;
+	int yGameOverBoxOffset = 368;
+	int xGameOverBoxOffset = 180;
 	
 	
 	
@@ -85,6 +97,8 @@ public class Menu {
 		    g.fillRect(this.background.x, this.background.y, this.background.width, this.background.height);
 		    g.setColor(Color.WHITE);
 		    g.drawRect(this.background.x, this.background.y, this.background.width, this.background.height);
+		    g.setFont(new Font("hintFont", Font.BOLD, 24));
+		    g.drawString("HINT: RIGHT CLICK TO ADD FLAGS", backgroundX + xHintOffset, backgroundY + yHintOffset);
 		}
 
 	    
@@ -105,8 +119,22 @@ public class Menu {
 			    }else {
 			    	g.drawString(this.options[i], this.difficultyButtons[i].x + xTextOffset, this.difficultyButtons[i].y + yTextOffset);
 			    }
-	    
 		    }
+	    }
+	    
+	    if(!start) {
+	    	
+	    	g.setFont(new Font("gameOverFont", Font.BOLD, 32));
+	    	g.setColor(Color.BLACK);
+			g.setColor(Color.BLACK);
+		    g.fillRect(backgroundX + xGameOverBoxOffset, backgroundY + yGameOverBoxOffset, GameOverWidth, GameOverHeight);
+		    g.setColor(Color.WHITE);
+		    g.drawRect(backgroundX + xGameOverBoxOffset, backgroundY + yGameOverBoxOffset, GameOverWidth, GameOverHeight);
+	    	if(this.hasWon) {
+			    g.drawString("VICTORY!", backgroundX + xGameOverOffset, backgroundY + yGameOverOffset);
+	    	}else {
+			    g.drawString(" BOOM!!!!", backgroundX + xGameOverOffset, backgroundY + yGameOverOffset);
+	    	}
 	    }
 	}
 	
@@ -153,6 +181,11 @@ public class Menu {
 	
 	public Level getLevel() {
 		return selected;
+	}
+
+	public void setWon(boolean b) {
+		this.hasWon = b;
+		
 	}
 	
 }

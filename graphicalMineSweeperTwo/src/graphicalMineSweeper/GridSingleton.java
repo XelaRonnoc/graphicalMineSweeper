@@ -20,6 +20,7 @@ public class GridSingleton {
 	private int screenWidth = 720;
 	private int borderWidth = 10;
 	private boolean gameRunning = false;
+	private boolean victory = false;
 	
 	private GridSingleton() {
 		
@@ -189,7 +190,7 @@ public class GridSingleton {
 		 if(clicked.isPresent()) {
 			boolean bomb = clicked.get().getBomb();
 			if(bomb) {
-				System.out.println("BOOOM!");
+				this.victory = false;
 				this.highlightBombs();
 				Save.save(
 						"lost",
@@ -204,7 +205,7 @@ public class GridSingleton {
 			}
 				
 			if(this.getSafeSpacesLeft() == 0) {
-				System.out.println("You Won!!!");
+				this.victory = true;
 				Save.save(
 						"Won",
 						"" + this.getSafeSpacesLeft(),
@@ -238,6 +239,10 @@ public class GridSingleton {
 		for(Cell cur: this.cells) {
 			cur.paint(g, mousePos, this.gameRunning);
 		}
+	}
+	
+	public boolean getVictory() {
+		return this.victory;
 	}
 	
 	public void setBorderWidth() {

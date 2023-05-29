@@ -100,7 +100,7 @@ public class Main extends JFrame {
 	    		
 	    		switch(menu.getLevel()) {
 	    			case EASY:
-	    				grid.setupGrid(10, 10);
+	    				grid.setupGrid(2, 10);
 	    				break;
 	    			case MEDIUM:
 	    				grid.setupGrid(40, 16);
@@ -120,6 +120,11 @@ public class Main extends JFrame {
 	    			repaint();
 	    		}
 	    		if(!grid.getGameRunning()) {
+	    			if(grid.getVictory()) {
+	    				menu.setWon(true);
+	    			}else {
+	    				menu.setWon(false);
+	    			}
 	    			menu = Menu.setMenu(false);
 	    		}
 
