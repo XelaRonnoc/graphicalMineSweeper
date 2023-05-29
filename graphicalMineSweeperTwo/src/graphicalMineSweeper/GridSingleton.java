@@ -191,6 +191,12 @@ public class GridSingleton {
 			if(bomb) {
 				System.out.println("BOOOM!");
 				this.highlightBombs();
+				Save.save(
+						"lost",
+						"" + this.getSafeSpacesLeft(),
+						"" + this.getNumberOfBombs(),
+						this.getGridSize() + "x" + this.getGridSize()
+						);
 				this.setGameRunning(false);
 					
 			}else {
@@ -199,6 +205,12 @@ public class GridSingleton {
 				
 			if(this.getSafeSpacesLeft() == 0) {
 				System.out.println("You Won!!!");
+				Save.save(
+						"Won",
+						"" + this.getSafeSpacesLeft(),
+						"" + this.getNumberOfBombs(),
+						this.getGridSize() + "x" + this.getGridSize()
+						);	
 				this.setGameRunning(false);
 			}
 		}
